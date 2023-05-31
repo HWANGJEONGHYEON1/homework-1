@@ -16,7 +16,7 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String no;
+    private String productNo;
     private String name;
     private Long price;
     private int stock;
@@ -34,8 +34,8 @@ public class Product {
     }
 
     @Builder
-    public Product(String no, String name, Long price, int stock) {
-        if (StringUtils.isBlank(no)) {
+    public Product(String productNo, String name, Long price, int stock) {
+        if (StringUtils.isBlank(productNo)) {
             throw new IllegalArgumentException("empty productNo");
         }
         if (StringUtils.isBlank(name)) {
@@ -48,7 +48,7 @@ public class Product {
             throw new IllegalArgumentException("empty stock");
         }
 
-        this.no = no;
+        this.productNo = productNo;
         this.name = name;
         this.price = price;
         this.stock = stock;

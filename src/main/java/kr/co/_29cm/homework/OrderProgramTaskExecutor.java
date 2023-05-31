@@ -15,7 +15,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Component
-public class ApplicationTaskExecutor implements ApplicationRunner {
+public class OrderProgramTaskExecutor implements ApplicationRunner {
 
     private final ProductInitService dataInsertService;
     private final ProductOrderProgram productOrderProgram;
