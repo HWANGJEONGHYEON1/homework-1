@@ -11,7 +11,7 @@ class OrderProductTest {
     @Test
     @DisplayName("주문 상품 생성")
     void create() {
-        OrderProduct testOrderProduct = TestHelper.testOrderProduct2;
+        OrderProduct testOrderProduct = TestHelper.testOrderProduct1;
 
         assertThat(testOrderProduct.getProduct()).isEqualTo(TestHelper.testProduct1);
         assertThat(testOrderProduct.getCount()).isEqualTo(3);

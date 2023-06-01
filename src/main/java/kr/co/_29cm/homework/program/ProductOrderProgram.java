@@ -1,16 +1,19 @@
 package kr.co._29cm.homework.program;
 
+import kr.co._29cm.homework.order.dto.OrderRequestDto;
+import kr.co._29cm.homework.order.dto.OrderResponseDto;
 import kr.co._29cm.homework.product.dto.ProductQuantityDto;
 import kr.co._29cm.homework.product.dto.ProductResponseDto;
 import kr.co._29cm.homework.program.view.InputView;
 import kr.co._29cm.homework.program.view.OutputView;
-import kr.co._29cm.homework.program.view.Validator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
@@ -28,14 +31,30 @@ public class ProductOrderProgram {
             if ("o".equals(input) || "order".equals(input)) {
                 OutputView.printProducts(Objects.requireNonNull(getProductDtos().getBody()));
                 List<ProductQuantityDto> productQuantities = getProductQuantities();
+                order(productQuantities);
 
-                OutputView.printOrderHistory();
 
             } else if ("q".equals(input) || "quit".equals(input)) {
                 OutputView.printFinalMessage();
                 break;
             }
         }
+    }
+
+    private void order(List<ProductQuantityDto> productQuantities) {
+        final String ordersUrl = "http://localhost:8080/api/v1/order";
+        OrderRequestDto orderRequestDto = new OrderRequestDto(productQuantities);
+        HttpEntity<OrderRequestDto> request = new HttpEntity<>(orderRequestDto);
+        ResponseEntity<OrderResponseDto> response = restTemplate.postForEntity(ordersUrl, request, OrderResponseDto.class);
+
+        OutputView.printOrderHistory(Objects.requireNonNull(response.getBody()));
+//        try {
+//            response = restTemplate.postForEntity(ordersUrl, request, OrderResponseDto.class);
+//        } catch (HttpStatusCodeException e) {
+//            ErrorResponseDto errorResponseDto = errorRead(e);
+//            errorHandler(errorResponseDto);
+//        }
+//        return response;
     }
 
     private List<ProductQuantityDto> getProductQuantities() {

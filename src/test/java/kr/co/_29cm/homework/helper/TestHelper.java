@@ -13,7 +13,6 @@ import java.util.List;
 
 public class TestHelper {
     public static LocalDateTime orderDateTime = LocalDateTime.parse("2023-01-23 11:00:11", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-
     // 상품 테스트 data
     public static Product testProduct1 = Product.createProduct("111", "무지티셔츠", 7000, 10);
     public static Product testProduct2 = Product.createProduct("222", "청바지", 25000, 100);
@@ -26,6 +25,9 @@ public class TestHelper {
     public static Order testOrder1 = Order.createOrder(orderDateTime, Arrays.asList(testOrderProduct1, testOrderProduct2));
     public static Order testOrder2 = Order.createOrder(orderDateTime, Arrays.asList(testOrderProduct1, testOrderProduct2, testOrderProduct3));
 
-    public static List<ProductQuantityDto> productQuantityDtos = Arrays.asList(new ProductQuantityDto(testProduct1.getProductNo(), 5), new ProductQuantityDto(testProduct2.getProductNo(), 3));
-    public static OrderRequestDto testOrderRequestDto = new OrderRequestDto(productQuantityDtos);
+    public static List<ProductQuantityDto> productQuantityDtos = Arrays.asList(new ProductQuantityDto("748943", 1), new ProductQuantityDto("779989", 3));
+    public static OrderRequestDto testOrderDeliveryFeeFreeRequestDto = new OrderRequestDto(productQuantityDtos);
+    public static OrderRequestDto testOrderDeliveryIncludeRequestDto = new OrderRequestDto(List.of(new ProductQuantityDto("748943", 1)));
+    public static OrderRequestDto testOrderStockLessRequestDto = new OrderRequestDto(List.of(new ProductQuantityDto("748943", 100)));
+    public static OrderRequestDto testOrderNotExistProductNoRequestDto = new OrderRequestDto(List.of(new ProductQuantityDto("-1", 100)));
 }

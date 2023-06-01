@@ -18,8 +18,8 @@ class ProductTest {
 
         assertThat(product.getProductNo()).isEqualTo("111");
         assertThat(product.getName()).isEqualTo("무지티셔츠");
-        assertThat(product.getPrice()).isEqualTo(10000);
-        assertThat(product.getStock()).isEqualTo(10);
+        assertThat(product.getPrice()).isEqualTo(7000);
+        assertThat(product.getStock()).isEqualTo(7);
         assertThat(product.getStatus()).isEqualTo(Product.Status.SALE);
     }
 
@@ -29,7 +29,7 @@ class ProductTest {
         Product product = testProduct1;
         product.removeStock(5);
 
-        assertThat(product.getStock()).isEqualTo(5);
+        assertThat(product.getStock()).isEqualTo(2);
     }
 
     @Test

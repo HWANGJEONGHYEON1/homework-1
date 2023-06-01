@@ -16,7 +16,7 @@ class OrderTest {
         assertThat(testOrder.getTotalPrice()).isEqualTo(46000);
         assertThat(testOrder.getDeliveryFee()).isEqualTo(2500);
         assertThat(testOrder.getOrderProducts().size()).isEqualTo(2);
-        assertThat(testOrder.getOrderProducts()).contains(TestHelper.testOrderProduct2, TestHelper.testOrderProduct2);
+        assertThat(testOrder.getOrderProducts()).contains(TestHelper.testOrderProduct1, TestHelper.testOrderProduct2);
     }
 
     @Test
@@ -27,6 +27,6 @@ class OrderTest {
         assertThat(testOrder.getTotalPrice()).isEqualTo(106000);
         assertThat(testOrder.getDeliveryFee()).isEqualTo(0);
         assertThat(testOrder.getOrderProducts().size()).isEqualTo(3);
-        assertThat(testOrder.getOrderProducts()).contains(TestHelper.testOrderProduct2, TestHelper.testOrderProduct2, TestHelper.testOrderProduct3);
+        assertThat(testOrder.getOrderProducts()).contains(TestHelper.testOrderProduct1, TestHelper.testOrderProduct2, TestHelper.testOrderProduct3);
     }
 }
