@@ -6,6 +6,7 @@ import kr.co._29cm.homework.program.view.InputView;
 import kr.co._29cm.homework.program.view.OutputView;
 import kr.co._29cm.homework.program.view.Validator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +17,8 @@ import java.util.*;
 
 @RequiredArgsConstructor
 @Component
+@Profile("!test")
 public class ProductOrderProgram {
-    private final Validator validator;
     private final RestTemplate restTemplate = new RestTemplate();
 
     public void start() {

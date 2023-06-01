@@ -3,8 +3,6 @@ package kr.co._29cm.homework.program.view;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Objects;
-import java.util.Scanner;
 
 public class InputView {
     private static final BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -23,6 +21,7 @@ public class InputView {
         if (" ".equals(input)) {
             return "next";
         }
+
         return input.toLowerCase().trim();
     }
 
@@ -32,6 +31,7 @@ public class InputView {
         if (" ".equals(input)) {
             return "next";
         }
+
         return input.toLowerCase().trim();
     }
 
@@ -42,6 +42,7 @@ public class InputView {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         return input;
     }
 }

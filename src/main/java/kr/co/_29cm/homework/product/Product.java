@@ -1,5 +1,6 @@
 package kr.co._29cm.homework.product;
 
+import kr.co._29cm.homework.exception.SoldOutException;
 import lombok.*;
 import org.apache.commons.lang3.StringUtils;
 
@@ -7,22 +8,32 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Getter
+@Setter(AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@NoArgsConstructor
-@Table(name = "product")
 @ToString
 public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "product_id")
     private Long id;
     private String productNo;
     private String name;
-    private Long price;
+    private int price;
     private int stock;
 
     @Enumerated(EnumType.STRING)
     private Status status;
+
+    public void removeStock(int quantity) {
+        int restStock = this.stock - quantity;
+
+        if (restStock < 0) {
+            throw new SoldOutException(String.format("[%s] : 재고가 부족합니다. 남은 재고: %s", this.productNo, this.stock));
+        }
+        this.stock = restStock;
+    }
 
     @Getter
     @RequiredArgsConstructor
@@ -33,25 +44,26 @@ public class Product {
         private final String description;
     }
 
-    @Builder
-    public Product(String productNo, String name, Long price, int stock) {
+    public static Product createProduct(String productNo, String name, int price, int stock) {
         if (StringUtils.isBlank(productNo)) {
             throw new IllegalArgumentException("empty productNo");
         }
         if (StringUtils.isBlank(name)) {
             throw new IllegalArgumentException("empty productName");
         }
-        if (Objects.isNull(price)) {
+        if (price <= 0) {
             throw new IllegalArgumentException("empty price");
         }
-        if (stock < 0) {
+        if (stock <= 0) {
             throw new IllegalArgumentException("empty stock");
         }
 
-        this.productNo = productNo;
-        this.name = name;
-        this.price = price;
-        this.stock = stock;
-        this.status = Status.SALE;
+        Product product = new Product();
+        product.setProductNo(productNo);
+        product.setName(name);
+        product.setPrice(price);
+        product.setStock(stock);
+        product.setStatus(Status.SALE);
+        return product;
     }
 }

@@ -20,10 +20,10 @@ public class CSVReader {
             for (CSVRecord csvRecord : csvParser) {
                 String productCode = csvRecord.get("상품번호");
                 String productName = csvRecord.get("상품명");
-                Long price = Long.parseLong(csvRecord.get("판매가격"));
+                int price = Integer.parseInt(csvRecord.get("판매가격"));
                 int stockQuantity = Integer.parseInt(csvRecord.get("재고수량"));
 
-                Product product = new Product(productCode, productName, price, stockQuantity);
+                Product product = Product.createProduct(productCode, productName, price, stockQuantity);
                 products.add(product);
             }
         } catch (IOException e) {
