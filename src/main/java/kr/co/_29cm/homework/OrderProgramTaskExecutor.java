@@ -28,7 +28,6 @@ public class OrderProgramTaskExecutor implements ApplicationRunner {
 
         List<Product> products = CSVReader.readCSVData(file.getPath());
         dataInsertService.insertData(products);
-
         productOrderProgram.start();
     }
 }

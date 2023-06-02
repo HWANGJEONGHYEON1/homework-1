@@ -29,4 +29,5 @@ class OrderTest {
         assertThat(testOrder.getOrderProducts().size()).isEqualTo(3);
         assertThat(testOrder.getOrderProducts()).contains(TestHelper.testOrderProduct1, TestHelper.testOrderProduct2, TestHelper.testOrderProduct3);
     }
+
 }

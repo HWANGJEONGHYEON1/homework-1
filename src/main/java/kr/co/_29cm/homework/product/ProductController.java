@@ -1,5 +1,6 @@
 package kr.co._29cm.homework.product;
 
+import kr.co._29cm.homework.common.ResponseObject;
 import kr.co._29cm.homework.product.dto.ProductResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +15,7 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping("/api/v1/products")
-    public List<ProductResponseDto> products() {
-        return productService.products();
+    public ResponseObject<List<ProductResponseDto>> products() {
+        return ResponseObject.toResponse(productService.products());
     }
 }

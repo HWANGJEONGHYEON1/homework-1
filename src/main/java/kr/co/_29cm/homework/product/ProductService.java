@@ -13,7 +13,6 @@ public class ProductService {
     private final ProductRepository productRepository;
 
     public List<ProductResponseDto> products() {
-        ;
         return productRepository.findAll()
                 .stream()
                 .map(product -> new ProductResponseDto(

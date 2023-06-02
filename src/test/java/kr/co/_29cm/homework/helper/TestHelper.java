@@ -28,6 +28,8 @@ public class TestHelper {
     public static List<ProductQuantityDto> productQuantityDtos = Arrays.asList(new ProductQuantityDto("748943", 1), new ProductQuantityDto("779989", 3));
     public static OrderRequestDto testOrderDeliveryFeeFreeRequestDto = new OrderRequestDto(productQuantityDtos);
     public static OrderRequestDto testOrderDeliveryIncludeRequestDto = new OrderRequestDto(List.of(new ProductQuantityDto("748943", 1)));
+    public static OrderRequestDto multiTestOrderDeliveryIncludeRequestDto = new OrderRequestDto(List.of(new ProductQuantityDto("748943", 1)));
     public static OrderRequestDto testOrderStockLessRequestDto = new OrderRequestDto(List.of(new ProductQuantityDto("748943", 100)));
     public static OrderRequestDto testOrderNotExistProductNoRequestDto = new OrderRequestDto(List.of(new ProductQuantityDto("-1", 100)));
+    public static OrderRequestDto testOrderProductQuantityZeroRequestDto = new OrderRequestDto(List.of(new ProductQuantityDto("748943", -1)));
 }

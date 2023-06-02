@@ -1,5 +1,6 @@
 package kr.co._29cm.homework.product;
 
+import kr.co._29cm.homework.exception.ErrorCode;
 import kr.co._29cm.homework.exception.SoldOutException;
 import lombok.*;
 import org.apache.commons.lang3.StringUtils;
@@ -18,7 +19,10 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
     private Long id;
+
+    @Column(unique = true)
     private String productNo;
+
     private String name;
     private int price;
     private int stock;
@@ -28,9 +32,8 @@ public class Product {
 
     public void removeStock(int quantity) {
         int restStock = this.stock - quantity;
-
         if (restStock < 0) {
-            throw new SoldOutException(String.format("[%s] : 재고가 부족합니다. 남은 재고: %s", this.productNo, this.stock));
+            throw new SoldOutException(ErrorCode.SOLD_OUT);
         }
         this.stock = restStock;
     }

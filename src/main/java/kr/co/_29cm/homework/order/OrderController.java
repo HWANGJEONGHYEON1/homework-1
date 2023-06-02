@@ -1,5 +1,6 @@
 package kr.co._29cm.homework.order;
 
+import kr.co._29cm.homework.common.ResponseObject;
 import kr.co._29cm.homework.order.dto.OrderRequestDto;
 import kr.co._29cm.homework.order.dto.OrderResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +15,7 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping("/api/v1/order")
-    public OrderResponseDto order(@RequestBody OrderRequestDto orderRequestDto) {
-        return orderService.order(orderRequestDto);
+    public ResponseObject<OrderResponseDto> order(@RequestBody OrderRequestDto orderRequestDto) {
+        return ResponseObject.toResponse(orderService.order(orderRequestDto));
     }
 }
