@@ -25,7 +25,7 @@ public class OrderService {
 
     @Transactional
     public OrderResponseDto order(OrderRequestDto orderRequestDto) {
-
+        System.out.println("#Thread :"+ Thread.currentThread().getName());
         List<OrderProduct> orderProducts = new ArrayList<>();
         for (ProductQuantityDto productQuantityDto : orderRequestDto.getProductQuantityDtos()) {
             Product product = validateProductDto(productQuantityDto);

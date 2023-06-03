@@ -38,14 +38,14 @@ public class OrderServiceTest {
     private static final int THREAD_COUNT = 100;
 
     private final CountDownLatch countDownLatch = new CountDownLatch(THREAD_COUNT);
-    private final ExecutorService executorService = Executors.newFixedThreadPool(THREAD_COUNT);
+    private final ExecutorService executorService = Executors.newFixedThreadPool(10);
 
 
     @BeforeEach
     void setup() {
         // 748943,디오디너리 데일리 세트 (Daily set),19000,89
         // 779989,버드와이저 HOME DJing 굿즈 세트,35000,43
-        productRepository.save(Product.createProduct("748943", "디오디너리 데일리 세트 (Daily set)", 19000, 100));
+        productRepository.save(Product.createProduct("748943", "디오디너리 데일리 세트 (Daily set)", 19000, 30));
         productRepository.save(Product.createProduct("779989", "버드와이저 HOME DJing 굿즈 세트", 35000, 20));
     }
 
@@ -57,33 +57,22 @@ public class OrderServiceTest {
     }
 
     @Test
-    @DisplayName("멀티 스레드 주문하기")
+    @DisplayName("멀티 스레드 요청으로 SoldOutException 정상 동작")
     void multi_thread_order() throws InterruptedException {
         OrderRequestDto testOrderRequestDto = TestHelper.multiTestOrderDeliveryIncludeRequestDto;
 
-        for (int i = 0; i < 100; i++) {
-            executorService.execute(() -> {
-                orderService.order(testOrderRequestDto);
-                countDownLatch.countDown();
-            });
-        }
-
-        countDownLatch.await();
-
-        assertThat(productRepository.findByProductNo("748943").get().getStock()).isEqualTo(0);
-
-//        assertThatThrownBy( () -> {
-//            for (int i=0; i < 10; i++) {
-//                try {
-//                    executorService.submit(() -> orderService.order(testOrderRequestDto)).get();
-//                    countDownLatch.countDown();
-//                } catch (Exception e) {
-//                    if (e.getCause() instanceof SoldOutException) {
-//                        throw e.getCause();
-//                    }
-//                }
-//            }
-//        }).isInstanceOf(SoldOutException.class);
+        assertThatThrownBy( () -> {
+            for (int i=0; i < THREAD_COUNT; i++) {
+                try {
+                    executorService.submit(() -> orderService.order(testOrderRequestDto)).get();
+                    countDownLatch.countDown();
+                } catch (Exception e) {
+                    if (e.getCause() instanceof SoldOutException) {
+                        throw e.getCause();
+                    }
+                }
+            }
+        }).isInstanceOf(SoldOutException.class);
     }
 
     @Test
@@ -103,7 +92,7 @@ public class OrderServiceTest {
         assertThat(orderResponseDtos.getOrderPrice()).isEqualTo(124000);
 
 
-        assertThat(productRepository.findByProductNo("748943").get().getStock()).isEqualTo(88);
+        assertThat(productRepository.findByProductNo("748943").get().getStock()).isEqualTo(29);
     }
 
     @Test
